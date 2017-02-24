@@ -1,0 +1,47 @@
+Migration from owncloud
+=======================
+
+### Prevent people using owncloud
+sudo -u apache php /usr/share/owncloud/occ maintenance:mode --on
+
+
+### If enough disk space for temporary double data usage
+## Copy data over from one location to the other
+rsync -aPh /var/lib/owncloud/ /var/lib/nextcloud/
+
+## If wanting to rename the database
+mysql -e 'create database nextclouddb;'
+mysql -e "grant all on nextclouddb.* to 'nextcloud_user'@'localhost' identified by 'nextcloud_pass';"
+mysqldump -v ownclouddb | mysql  -D nextclouddb
+
+
+### If not enough space for temporary double data
+## Copy data over from one location to the other
+mv /var/lib/owncloud/* /var/lib/nextcloud/
+
+## If wanting to rename the database
+mysql -e 'create database nextclouddb'
+mysql -e "grant all on nextclouddb.* to 'nextcloud_user'@'localhost' identified by 'nextcloud_pass';"
+mysql ownclouddb -sNe 'show tables' | while read table;  do mysql  -sNe "rename table ownclouddb.$table to nextclouddb.$table;"; done
+
+
+### Bring over the old configuration and update paths
+cp /etc/owncloud/config.php /etc/nextcloud/config.php
+sed -i '/owncloud/nextcloud/g' /etc/nextcloud/config.php
+
+
+### Enable the nextcloud interface on httpd
+ln -s /etc/httpd/conf.d/nextcloud-access.conf.avail /etc/httpd/conf.d/z-nextcloud-access.conf
+
+### Carry out any migration required
+sudo -u apache php /usr/share/nextcloud/occ upgrade
+
+
+### Enable allow people to use nextcloud
+sudo -u apache php /usr/share/nextcloud/occ maintenance:mode --off
+
+
+### Clean up the owncloud stuff after testing
+dnf remove -y owncloud\*
+rm -rf /var/lib/owncloud /etc/owncloud
+mysql -e 'drop database ownclouddb;'

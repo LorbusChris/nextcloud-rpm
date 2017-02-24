@@ -1,4 +1,4 @@
-ownCloud packaging notes
+nextcloud packaging notes
 ========================
 
 Start
@@ -6,31 +6,31 @@ Start
 After installation you should be able to access the login/configuration page
 at the following URL:
 
-http://localhost/owncloud/ or http://localhost/
+http://localhost/nextcloud/
 
 If not, make sure your webserver is running properly.
 
 Webserver
 ---------
-Currently ownCloud in Fedora supports httpd (Apache) and nginx. You must install
-at least one webserver subpackage (owncloud-<webserver>). These packages
+Currently nextcloud in Fedora supports httpd (Apache) and nginx. You must install
+at least one webserver subpackage (nextcloud-<webserver>). These packages
 include additional configuration files for the webservers. Remote access is
-disabled by default. To enable access from any host for Apache **AFTER** you
+disabled by default on httpd. To enable access from any host for Apache **AFTER** you
 complete the initial setup process, do this:
 
-ln -s /etc/httpd/conf.d/owncloud-access.conf.avail /etc/httpd/conf.d/z-owncloud-access.conf
+ln -s /etc/httpd/conf.d/nextcloud-access.conf.avail /etc/httpd/conf.d/z-nextcloud-access.conf
 
 If you wish to adjust any of the settings it is recommended that you create
-a new configuration file that will override owncloud.conf, rather than editing
+a new configuration file that will override nextcloud.conf, rather than editing
 it, so future changes to the packaged file will be respected on your server.
 If you do not do this, please be careful to check for changes in the packaged
-configuration file (especially on major ownCloud upgrades) and merge into
+configuration file (especially on major nextcloud upgrades) and merge into
 your modified configuration as appropriate.
 
 Database
 --------
 You can choose between three databases: MySQL, PostgreSQL and SQLite.
-For each of them there is an ownCloud subpackage (owncloud-<database>).
+For each of them there is an nextcloud subpackage (nextcloud-<database>).
 You are required to install at least one of them. The packages only ensure
 the necessary requirements to communicate with a database server of that type
 are installed, they do not require the database server package itself, as
@@ -40,7 +40,7 @@ you must ensure it is installed and configured.
 For larger installs you should use MySQL or PostgreSQL.
 
 If you choose MySQL or PostgreSQL, keep in mind that you must create a database
-and user for ownCloud manually, before you can finish the setup process. The
+and user for nextcloud manually, before you can finish the setup process. The
 README.postgresql and README.mysql files provide more details and help with
 this.
 
@@ -49,34 +49,34 @@ allow the webserver to connect to it - see the selinux section further down.
 
 Configuration
 -------------
-You can find the main configuration file at '/etc/owncloud/config.php'. Until
+You can find the main configuration file at '/etc/nextcloud/config.php'. Until
 you first access the server it will be just a small stub containing settings
 that differ in this package from the upstream defaults. After you first access
-ownCloud, the initial setup process will populate it with some more settings.
+nextcloud, the initial setup process will populate it with some more settings.
 Other settings that can be provided in this file are documented at:
-https://doc.owncloud.org/server/8.2/admin_manual/configuration_server/config_sample_php_parameters.html
+https://docs.nextcloud.com/server/10/admin_manual/configuration_server/config_sample_php_parameters.html
 
 User Data
 ---------
-The default data directory is '/var/lib/owncloud/data'. Every file that is
-uploaded by your users to ownCloud gets saved into this folder. Consider doing
+The default data directory is '/var/lib/nextcloud/data'. Every file that is
+uploaded by your users to nextcloud gets saved into this folder. Consider doing
 a backup of this directory, together with the database and the main
 configuration. Note that if you change this location, you must set appropriate
 ownership and SELinux context attributes.
 
 Logging
 -------
-As specified by the configuration file, ownCloud sends messages to the system
+As specified by the configuration file, nextcloud sends messages to the system
 logger, which means in a standard Fedora configuration it will log to the
-systemd journal: try "journalctl -b -t ownCloud". You can also change the
-loglevel or switch to the built-in log mechanism of ownCloud.
+systemd journal: try "journalctl -b -t Nextcloud". You can also change the
+loglevel or switch to the built-in log mechanism of nextcloud.
 
 App Store
 ---------
 If you install additional third party apps using the built-in app store, you
-can find them in the directory '/var/lib/owncloud/apps'. This functionality is
+can find them in the directory '/var/lib/nextcloud/apps'. This functionality is
 enabled by default. If this is moved then it's important to configure httpd/nginx
-appropriately for the correct /owncloud/apps-appstore path to alias to the new location.
+appropriately for the correct /nextcloud/apps-appstore path to alias to the new location.
 
 The app store URL is coded into the core php and does not need to be listed in config.php
 
@@ -91,7 +91,7 @@ then the httpd_execmem should be toggled on and the unoconv package should be in
 
 If not using an external file source but still using an external database then the boolean
 httpd_can_network_connect_db should be toggled on for access to regular DB ports. The general
-network connect can alternatiely be used for non-standard ports or for a broader permission 
+network connect can alternatiely be used for non-standard ports or for a broader permission
 in case of future external files requirements.
 
 Memory caching
@@ -102,15 +102,9 @@ documentation and install ACPu via:
 
 dnf install 'php-pecl(apcu)'
 
-For further information see http://owncloud.org/ and http://doc.owncloud.org/
+For further information see http://nextcloud.org/ and http://doc.nextcloud.org/
 
-PHP Curl NSS Issue
-------------------
-There is currently an issue with NSS which is improperly reusing SSL session cache.
-There is both a fix for NSS and a workaround for cURL however neither of these will
-arrive before the EL7.3 milestone. The relevant bug to track for updates on this is:
-https://bugzilla.redhat.com/show_bug.cgi?id=1241172
+Migration from owncloud
+-----------------------
 
-The discussion in the upstream ownCloud issue tracker can be found here:
-https://github.com/owncloud/core/issues/16255
-
+For detailed instructions on this please read MIGRATION.fedora
