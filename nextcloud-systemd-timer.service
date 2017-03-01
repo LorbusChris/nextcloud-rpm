@@ -1,0 +1,8 @@
+[Unit]
+Description=Cron for nextcloud background jobs
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/php -f /usr/share/nextcloud/cron.php
+User=apache
+

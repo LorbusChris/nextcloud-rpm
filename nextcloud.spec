@@ -1,5 +1,5 @@
 Name:           nextcloud
-Version:        10.0.3
+Version:        10.0.4
 Release:        1%{?dist}
 Summary:        Private file sync and share server
 
@@ -25,12 +25,17 @@ Source103:      %{name}-defaults.inc
 Source3:        %{name}-README.fedora
 Source4:        %{name}-mysql.txt
 Source5:        %{name}-postgresql.txt
+Source6:        %{name}-MIGRATION.fedora
 # config.php containing just settings we want to specify, nextcloud's
 # initial setup will fill out other settings appropriately
 Source7:        %{name}-config.php
 
 # Our autoloader for core
 Source8:        %{name}-fedora-autoloader.php
+
+# Systemd timer for background jobs
+Source10:       %{name}-systemd-timer.service
+Source11:       %{name}-systemd-timer.timer
 
 # Stop OC from trying to do stuff to .htaccess files. Just calm down, OC.
 # Distributors are on the case.
@@ -53,8 +58,14 @@ Patch6:         %{name}-463e2ea-php71-backport.patch
 Patch7:         %{name}-b129d5d-php71-backport.patch
 Patch8:         %{name}-10.0.3-dont-check-php-version.patch
 
+# Direct the admin to the correct cli command for upgrades
+Patch9:         %{name}-10.0.4-correct-cli-upgrade.patch
+
 BuildArch:      noarch
 
+# For the systemd macros
+%{?systemd_requires}
+BuildRequires:  systemd
 
 # expand pear macros on install
 BuildRequires:  php-pear
@@ -467,6 +478,7 @@ find . -name .github    -type d -prune -exec rm -r {} \; -print
 cp %{SOURCE3} README.fedora
 cp %{SOURCE4} README.mysql
 cp %{SOURCE5} README.postgresql
+cp %{SOURCE6} MIGRATION.fedora
 
 mv 3rdparty/composer.json 3rdparty_composer.json
 mv apps/files_external/3rdparty/composer.json files_external_composer.json
@@ -720,6 +732,9 @@ install -Dpm 644 %{SOURCE202} \
     %{buildroot}%{_sysconfdir}/php-fpm.d/%{name}.conf
 %endif
 
+# Install the systemd timer
+install -Dpm 644 %{SOURCE10} %{buildroot}%{_unitdir}/nextcloud-cron.service
+install -Dpm 644 %{SOURCE11} %{buildroot}%{_unitdir}/nextcloud-cron.timer
 
 %post httpd
 /usr/bin/systemctl reload httpd.service > /dev/null 2>&1 || :
@@ -765,7 +780,7 @@ semanage fcontext -d -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.
 fi
 
 %files
-%doc AUTHORS README.fedora config/config.sample.php
+%doc AUTHORS README.fedora MIGRATION.fedora config/config.sample.php
 %doc *_composer.json
 
 %license *-LICENSE
@@ -782,6 +797,8 @@ fi
 %dir %attr(0750,apache,apache) %{_localstatedir}/lib/%{name}/data
 %attr(-,apache,apache) %{_localstatedir}/lib/%{name}/apps
 
+%{_unitdir}/nextcloud-cron.service
+%{_unitdir}/nextcloud-cron.timer
 
 %files httpd
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
@@ -801,6 +818,11 @@ fi
 
 
 %changelog
+* Tue Feb 28 2017 James Hogarth <james.hogarth@gmail.com> - 10.0.4-1
+- update to 10.0.4
+- Add migration from owncloud documentation
+- Add systemd timer for background jobs
+
 * Wed Feb 08 2017 James Hogarth <james.hogarth@gmail.com> - 10.0.3-1
 - update to 10.0.3
 

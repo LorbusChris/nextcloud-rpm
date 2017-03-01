@@ -104,6 +104,14 @@ dnf install 'php-pecl(apcu)'
 
 For further information see http://nextcloud.org/ and http://doc.nextcloud.org/
 
+Scheduling Background Jobs
+--------------------------
+The default behaviour is to use the AJAX webcron, however this is fairly inefficient and does not scale very well.
+
+It's recommended to set the option "Cron" to use the system scheduler and to enable the included systemd timer.
+
+systemctl enable --now nextcloud-cron.timer
+
 Migration from owncloud
 -----------------------
 

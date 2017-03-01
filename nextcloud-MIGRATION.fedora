@@ -1,47 +1,165 @@
-Migration from owncloud
-=======================
+# Migration from owncloud
+
+When migrating from an existing owncloud install it's possible to use the same database,
+or to rename the database to reduce confusion.
+
+Before carrying out the migration it is important to prevent anyone from changing things.
+
+Of course it's advised to carry out a backup of the database and files before any migration.
 
 ### Prevent people using owncloud
 sudo -u apache php /usr/share/owncloud/occ maintenance:mode --on
 
+### Migration whilst keeping owncloud data intact
 
-### If enough disk space for temporary double data usage
-## Copy data over from one location to the other
+This is the safest option as it is nondestructive to owncloud, but it will require
+double the data storage during the migration.
+
+#### Copy data over from one location to the other
+The data layout is identical, it's just the location that differs.
+```
 rsync -aPh /var/lib/owncloud/ /var/lib/nextcloud/
+```
 
-## If wanting to rename the database
+## Renaming the database
+This is optional but might serve to confuse less, and prevents any changes to the owncloud
+database in case there are issues requiring a fallback. Naturally use better credentials and
+use the correct database names for your setup!
+
+##### MySQL
+```
 mysql -e 'create database nextclouddb;'
 mysql -e "grant all on nextclouddb.* to 'nextcloud_user'@'localhost' identified by 'nextcloud_pass';"
 mysqldump -v ownclouddb | mysql  -D nextclouddb
+```
 
+##### PostgreSQL
+```
+sudo -u postgres psql <<EOF
+ /* Create the user for nextcloud */
+ CREATE USER nextcloud_user WITH PASSWORD 'nextcloud_pass';
 
-### If not enough space for temporary double data
-## Copy data over from one location to the other
+ /* KILL ALL EXISTING CONNECTION FROM ORIGINAL DB (ownclouddb)*/
+ SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity
+ WHERE pg_stat_activity.datname = 'ownclouddb' AND pid <> pg_backend_pid();
+
+ /* CLONE DATABASE TO NEW ONE(nextclouddb) */
+ CREATE DATABASE nextclouddb WITH TEMPLATE ownclouddb OWNER nextcloud_user;
+
+ GRANT ALL PRIVILEGES ON DATABASE nextclouddb TO nextcloud_user;
+
+/* The tables need to be transferred in owner as well */
+\c nextclouddb;
+REASSIGN OWNED BY owncloud_user TO nextcloud_user;
+ EOF
+
+```
+Don't forget to update pg_hba.conf to allow access to the new database as the new user!
+
+```
+host nextclouddb nextcloud_user ::1/128 password
+host nextclouddb nextcloud_user 127.0.0.1/32 password
+```
+
+### Migration in place without preserving owncloud data
+
+If there is not sufficient disk then data can be moved, this will break owncloud in the process
+and there won't be a fallback option if things go wrong beyond restiring data/backups.
+
+#### Copy data over from one location to the other
+```
 mv /var/lib/owncloud/* /var/lib/nextcloud/
+```
 
-## If wanting to rename the database
-mysql -e 'create database nextclouddb'
+#### Renaming the database
+This is even more optional since the old database will be destroyed in the process, but it may serve
+to lessen confusion later on for future maintenance. Again replace with the desired credentials and
+database names for your environment.
+
+Note that since the database sizes are small it's more reliable and safer for the data stores to follow
+the steps to duplicate the database laid out above.
+
+##### MySQL
+```
+mysql -e 'create database nextclouddb;'
 mysql -e "grant all on nextclouddb.* to 'nextcloud_user'@'localhost' identified by 'nextcloud_pass';"
 mysql ownclouddb -sNe 'show tables' | while read table;  do mysql  -sNe "rename table ownclouddb.$table to nextclouddb.$table;"; done
+```
 
+##### PostgreSQL
+```
+sudo -u postgres psql <<EOF
+ /* Create the user for nextcloud */
+ CREATE USER nextcloud_user WITH PASSWORD 'nextcloud_pass';
+
+ /* KILL ALL EXISTING CONNECTION FROM ORIGINAL DB (ownclouddb)*/
+ SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity
+ WHERE pg_stat_activity.datname = 'ownclouddb' AND pid <> pg_backend_pid();
+
+ /* ALTER DATABASE to rename it */
+ ALTER DATABASE ownclouddb RENAME TO nextclouddb;
+ ALTER DATABASE nextclouddb OWNER TO nextcloud_user;
+
+ GRANT ALL PRIVILEGES ON DATABASE nextclouddb TO nextcloud_user;
+
+/* The tables need to be transferred in owner as well */
+\c nextclouddb;
+REASSIGN OWNED BY owncloud_user TO nextcloud_user;
+EOF
+```
+
+Again remember to update pg_hba.conf so the new database and user can be used.
 
 ### Bring over the old configuration and update paths
+The config can be copied as-is which will preserve most settings. This is a coarse rename of everything
+from owncloud to nextcloud, but if the database isn't renamed then this too much. Verify the database
+credentials and name in the config file are correct before moving on to the next step.
+```
 cp /etc/owncloud/config.php /etc/nextcloud/config.php
 sed -i '/owncloud/nextcloud/g' /etc/nextcloud/config.php
-
+```
 
 ### Enable the nextcloud interface on httpd
+If using httpd then enable the interface the same way as the README describes for a fresh install
+```
 ln -s /etc/httpd/conf.d/nextcloud-access.conf.avail /etc/httpd/conf.d/z-nextcloud-access.conf
+```
 
 ### Carry out any migration required
-sudo -u apache php /usr/share/nextcloud/occ upgrade
+A migration step for database schemas etc needs to be carried out to ensure everything is correct.
 
+Although the WebUI will be prompting the standard "click here to update" it is best for this major
+migration to carry it out at the command line.
+```
+sudo -u apache php /usr/share/nextcloud/occ upgrade
+```
+
+### Verify that everything looks right
+It's best at this stage to enter as an admin and have the instance in single user mode only
+```
+sudo -u apache php /usr/share/nextcloud/occ maintenance:singleuser --on
+sudo -u apache php /usr/share/nextcloud/occ maintenance:mode --off
+```
+__NOTE__ It is usual for things like webdav to be disabled during singleuser which may prevent seeing
+files, however just use this to verify the admin screens. On testing apps needed to be disabled
+and then enabled again for nextcloud to correctly pick them up.
 
 ### Enable allow people to use nextcloud
-sudo -u apache php /usr/share/nextcloud/occ maintenance:mode --off
+If things are looking good then open the floodgates to everyone else.
+```
+sudo -u apache php /usr/share/nextcloud/occ maintenance:singleuser --off
+```
 
-
-### Clean up the owncloud stuff after testing
+### Clean up the owncloud stuff
+Finally clean up the old owncloud install, replace with the database and user for your own setup.
+```
 dnf remove -y owncloud\*
-rm -rf /var/lib/owncloud /etc/owncloud
-mysql -e 'drop database ownclouddb;'
+rm -rf /var/lib/owncloud /etc/owncloud /etc/httpd/conf.d/*owncloud*
+# mysql
+mysql -e "drop database ownclouddb; drop user owncloud_user@'localhost';"
+# postgres
+sudo -u postgres psql <<EOF
+DROP DATABASE ownclouddb;
+DROP USER owncloud_user;
+EOF
+```

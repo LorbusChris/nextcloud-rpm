@@ -1,0 +1,10 @@
+[Unit]
+Description=This triggers the nextcloud cron service
+
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=15min
+
+[Install]
+WantedBy=timers.target
+
