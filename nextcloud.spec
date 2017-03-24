@@ -1,6 +1,6 @@
 Name:           nextcloud
 Version:        10.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Private file sync and share server
 
 License:        AGPLv3+ and MIT and BSD and ASL 2.0 and WTFPL and CC-BY-SA and GPLv3+ and Adobe
@@ -80,11 +80,16 @@ BuildRequires:       php-composer(mcnetic/zipstreamer) >= 1.0
 BuildRequires:       php-composer(mcnetic/zipstreamer) < 2.0
 BuildRequires:       php-composer(phpseclib/phpseclib) >= 2.0
 BuildRequires:       php-composer(phpseclib/phpseclib) < 3.0
-BuildRequires:       php-opencloud >= 1.9.2
+BuildRequires:       php-composer(rackspace/php-opencloud) >= 1.9.2
+BuildRequires:       php-composer(rackspace/php-opencloud) < 2.0
 BuildRequires:       php-composer(jeremeamia/superclosure) >= 2.1.0
+BuildRequires:       php-composer(jeremeamia/superclosure) < 3.0
 BuildRequires:       php-composer(bantu/ini-get-wrapper) >= 1.0.1
+BuildRequires:       php-composer(bantu/ini-get-wrapper) < 2.0
 BuildRequires:       php-composer(natxet/CssMin) >= 3.0.4
+BuildRequires:       php-composer(natxet/CssMin) < 4.0
 BuildRequires:       php-composer(punic/punic) >= 1.6.3
+BuildRequires:       php-composer(punic/punic) < 2.0
 %if 0%{?el7}
 BuildRequires:       php-pear(Archive_Tar) >= 1.3
 BuildRequires:       php-pear(Archive_Tar) < 2.0
@@ -105,21 +110,28 @@ BuildRequires:       php-composer(symfony/process) < 3.0.0
 BuildRequires:       php-composer(pimple/pimple) >= 3.0.2
 BuildRequires:       php-composer(pimple/pimple) < 4.0
 BuildRequires:       php-composer(ircmaxell/password-compat) >= 1.0.0
+BuildRequires:       php-composer(ircmaxell/password-compat) < 2.0
 BuildRequires:       php-composer(nikic/php-parser) >= 1.4.1
 BuildRequires:       php-composer(nikic/php-parser) < 2.0
 BuildRequires:       php-composer(icewind/streams) >= 0.4.1
+BuildRequires:       php-composer(icewind/streams) < 1.0
 BuildRequires:       php-composer(swiftmailer/swiftmailer) >= 5.4.1
+BuildRequires:       php-composer(swiftmailer/swiftmailer) < 6.0
 BuildRequires:       php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:       php-composer(guzzlehttp/guzzle) < 6.0
 BuildRequires:       php-composer(league/flysystem) >= 1.0.20
+BuildRequires:       php-composer(league/flysystem) < 2.0
 %if 0%{?el7}
 BuildRequires:       php-pear(Console_Getopt) > 1.3
+BuildRequires:       php-pear(Console_Getopt) < 2.0
 BuildRequires:       php-pear(PEAR) > 1.9
 %else
 BuildRequires:       php-composer(pear/pear-core-minimal) >= 1.10.1
 %endif
 BuildRequires:       php-composer(interfasys/lognormalizer) >= 1.0
+BuildRequires:       php-composer(interfasys/lognormalizer) < 2.0
 BuildRequires:       php-composer(owncloud/tarstreamer) >= 0.1
+BuildRequires:       php-composer(owncloud/tarstreamer) < 1.0
 BuildRequires:       php-composer(patchwork/jsqueeze) >= 2.0
 BuildRequires:       php-composer(patchwork/jsqueeze) < 3.0
 BuildRequires:       php-composer(symfony/polyfill-php70) >= 1.0
@@ -130,16 +142,20 @@ BuildRequires:       php-composer(symfony/polyfill-php56) >= 1.0
 BuildRequires:       php-composer(symfony/polyfill-php56) < 2.0
 BuildRequires:       php-composer(lukasreschke/id3parser) >= 0.0.1
 BuildRequires:       php-composer(lukasreschke/id3parser) < 1.0.0
-BuildRequires:       php-composer(icewind/smb)     >= 1.1.0
+BuildRequires:       php-composer(icewind/smb) >= 1.1.0
+BuildRequires:       php-composer(icewind/smb) < 2.0
 BuildRequires:       php-pecl(smbclient) >= 0.8.0
+BuildRequires:       php-pecl(smbclient) < 1.0
 BuildRequires:       php-composer(google/apiclient) >= 1.1.7
-BuildRequires:       php-composer(google/apiclient) < 2.0.0
+# Note: 1.1.8 has BC breaks
+BuildRequires:       php-composer(google/apiclient) < 1.1.8
 BuildRequires:       php-composer(aws/aws-sdk-php) >= 2.7.5
 BuildRequires:       php-composer(aws/aws-sdk-php) < 3.0.0
 BuildRequires:       php-composer(symfony/yaml) >= 2.6.0
 BuildRequires:       php-composer(symfony/yaml) < 3.0.0
 BuildRequires:       php-pear(pear.dropbox-php.com/Dropbox)
 BuildRequires:       php-composer(onelogin/php-saml) >= 2.9.0
+BuildRequires:       php-composer(onelogin/php-saml) < 3.0
 
 Requires:       %{name}-webserver = %{version}-%{release}
 Requires:       %{name}-database = %{version}-%{release}
@@ -184,19 +200,24 @@ Requires:       php-composer(phpseclib/phpseclib) < 3.0
 #Requires:       php-composer(rackspace/php-opencloud) >= 1.9.2
 # pulls in guzzle/http as a strict requires
 # guzzle/http package include common, parser and stream too
-Requires:       php-opencloud >= 1.9.2
+Requires:       php-composer(rackspace/php-opencloud) >= 1.9.2
+Requires:       php-composer(rackspace/php-opencloud) < 2.0
 
 # "jeremeamia/superclosure": "2.1.0"
 Requires:       php-composer(jeremeamia/superclosure) >= 2.1.0
+Requires:       php-composer(jeremeamia/superclosure) < 3.0
 
 # "bantu/ini-get-wrapper": "v1.0.1"
 Requires:       php-composer(bantu/ini-get-wrapper) >= 1.0.1
+Requires:       php-composer(bantu/ini-get-wrapper) < 2.0
 
 # "natxet/CssMin": "dev-master"
 Requires:       php-composer(natxet/CssMin) >= 3.0.4
+Requires:       php-composer(natxet/CssMin) < 4.0
 
 # "punic/punic": "1.6.3"
 Requires:       php-composer(punic/punic) >= 1.6.3
+Requires:       php-composer(punic/punic) < 2.0
 
 # "pear/archive_tar": "1.4.1"
 # archive_tar is in base el7 and doesn't have the fedora php-composer provides
@@ -214,7 +235,7 @@ Requires:       php-composer(patchwork/utf8) < 2.0
 
 # "symfony/console": "2.8.3"
 Requires:       php-composer(symfony/console) >= 2.8.3
-Requires:       php-composer(symfony/console) < 3.0.0.
+Requires:       php-composer(symfony/console) < 3.0.0
 # "symfony/event-dispatcher": "2.8.3"
 Requires:       php-composer(symfony/event-dispatcher) >= 2.8.3
 Requires:       php-composer(symfony/event-dispatcher) < 3.0.0
@@ -231,6 +252,7 @@ Requires:       php-composer(pimple/pimple) < 4.0
 
 # "ircmaxell/password-compat": "1.0.*"
 Requires:       php-composer(ircmaxell/password-compat) >= 1.0.0
+Requires:       php-composer(ircmaxell/password-compat) < 2.0
 
 # "nikic/php-parser": "1.4.1"
 Requires:       php-composer(nikic/php-parser) >= 1.4.1
@@ -238,10 +260,12 @@ Requires:       php-composer(nikic/php-parser) < 2.0
 
 # "icewind/Streams": "0.4.1"
 Requires:       php-composer(icewind/streams) >= 0.4.1
+Requires:       php-composer(icewind/streams) < 1.0
 
 # "swiftmailer/swiftmailer": "@stable"
 # Version 5.4.1 for autoloader in /usr/share/php
 Requires:       php-composer(swiftmailer/swiftmailer) >= 5.4.1
+Requires:       php-composer(swiftmailer/swiftmailer) < 6.0
 
 # "guzzlehttp/guzzle": "5.3.0"
 # pulls in guzzlehttp/ringphp as strict requires
@@ -251,12 +275,14 @@ Requires:       php-composer(guzzlehttp/guzzle) < 6.0
 
 # "league/flysystem": "1.0.20"
 Requires:       php-composer(league/flysystem) >= 1.0.20
+Requires:       php-composer(league/flysystem) < 2.0
 
 
 # "pear/pear-core-minimal": "v1.10.1"
 # this includes pear/console_getopt and pear/PEAR
 %if 0%{?el7}
 Requires:       php-pear(Console_Getopt) > 1.3
+Requires:       php-pear(Console_Getopt) < 2.0
 Requires:       php-pear(PEAR) > 1.9
 %else
 Requires:       php-composer(pear/pear-core-minimal) >= 1.10.1
@@ -264,11 +290,13 @@ Requires:       php-composer(pear/pear-core-minimal) >= 1.10.1
 
 # "interfasys/lognormalizer": "v1.0"
 Requires:       php-composer(interfasys/lognormalizer) >= 1.0
+Requires:       php-composer(interfasys/lognormalizer) < 2.0
 
 # "deepdiver1975/TarStreamer": "v0.1.0"
 # Despite the difference in name this is correct
 # https://github.com/owncloud/3rdparty/tree/master/deepdiver1975/tarstreamer
 Requires:       php-composer(owncloud/tarstreamer) >= 0.1
+Requires:       php-composer(owncloud/tarstreamer) < 1.0
 
 # "patchwork/jsqueeze": "^2.0"
 Requires:       php-composer(patchwork/jsqueeze) >= 2.0
@@ -303,10 +331,12 @@ Requires:       php-composer(lukasreschke/id3parser) < 1.0.0
 
 #"icewind/smb": "1.1.0"
 # note that streams is a dep but already required by core anyway
-Requires:       php-composer(icewind/smb)     >= 1.1.0
+Requires:       php-composer(icewind/smb) >= 1.1.0
+Requires:       php-composer(icewind/smb) < 2.0
 # This makes smb external storage usable in performance
 # and doesn't break things like encryption due to timeouts
 Requires:       php-pecl(smbclient) >= 0.8.0
+Requires:       php-pecl(smbclient) < 1.0
 
 
 # Requiring so that the shipped external smb storage works
@@ -320,8 +350,9 @@ Requires:       samba-client
 Requires:       php-pear(pear.dropbox-php.com/Dropbox)
 
 ## Google Drive external storage
+## Note: 1.1.8 has BC breaks
 Requires:       php-composer(google/apiclient) >= 1.1.7
-Requires:       php-composer(google/apiclient) < 2.0.0
+Requires:       php-composer(google/apiclient) < 1.1.8
 
 ## AWS S3 external storage
 Requires:       php-composer(aws/aws-sdk-php) >= 2.7.0
@@ -547,7 +578,11 @@ cat << 'EOF' | tee apps/files_external/3rdparty/autoload.php
 require_once '%{_datadir}/php/Icewind/Streams/autoload.php';
 require_once '%{_datadir}/php/Icewind/SMB/autoload.php';
 require_once '%{_datadir}/pear/Dropbox/autoload.php';
-require_once '%{_datadir}/php/Google/autoload.php';
+if (file_exists('%{_datadir}/php/Google1/autoload.php')) {
+    require_once '%{_datadir}/php/Google1/autoload.php';
+} else {
+    require_once '%{_datadir}/php/Google/autoload.php';
+}
 require_once '%{_datadir}/php/Aws/autoload.php';
 EOF
 
@@ -818,6 +853,11 @@ fi
 
 
 %changelog
+* Sat Mar 25 2017 Shawn Iwinski <shawn.iwinski@gmail.com> - 10.0.4-2
+- Add max versions to dependencies to limit each to 1 major version
+- Update some dependencies to use php-composer(*) instead of package names
+- Prepare for php-composer(google/apiclient) version 2 and new version 1 package
+
 * Tue Feb 28 2017 James Hogarth <james.hogarth@gmail.com> - 10.0.4-1
 - update to 10.0.4
 - Add migration from owncloud documentation
@@ -846,4 +886,3 @@ fi
 
 * Thu Jul 14 2016 James Hogarth <james.hogarth@gmail.com> - 9.0.52-1
 - Initial nextcloud build
-
