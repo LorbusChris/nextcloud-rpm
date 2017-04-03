@@ -116,7 +116,7 @@ from owncloud to nextcloud, but if the database isn't renamed then this too much
 credentials and name in the config file are correct before moving on to the next step.
 ```
 cp /etc/owncloud/config.php /etc/nextcloud/config.php
-sed -i '/owncloud/nextcloud/g' /etc/nextcloud/config.php
+sed -i 's/owncloud/nextcloud/g' /etc/nextcloud/config.php
 ```
 
 ### Enable the nextcloud interface on httpd
