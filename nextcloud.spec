@@ -1,6 +1,6 @@
 Name:           nextcloud
 Version:        10.0.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Private file sync and share server
 
 License:        AGPLv3+ and MIT and BSD and ASL 2.0 and WTFPL and CC-BY-SA and GPLv3+ and Adobe
@@ -853,6 +853,9 @@ fi
 
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.4-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Sat Mar 25 2017 Shawn Iwinski <shawn.iwinski@gmail.com> - 10.0.4-2
 - Add max versions to dependencies to limit each to 1 major version
 - Update some dependencies to use php-composer(*) instead of package names
