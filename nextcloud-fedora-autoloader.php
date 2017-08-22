@@ -14,10 +14,7 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
 $fedoraClassLoader->setUseIncludePath(true);
 
 // Dependencies from 3rdparty composer.json
-// "guzzlehttp/guzzle"
-require_once $vendor . '/GuzzleHttp/autoload.php';
-// "sabre/dav"
-require_once $vendor . '/Sabre/DAV/autoload.php';
+// https://github.com/nextcloud/3rdparty/blob/v12.0.2/composer.json
 // "doctrine/dbal"
 require_once $vendor . '/Doctrine/DBAL/autoload.php';
 // mcnetic/zipstreamer"
@@ -46,23 +43,31 @@ require_once $vendor . '/Symfony/Component/Routing/autoload.php';
 require_once $vendor . '/Symfony/Component/Process/autoload.php';
 // "pimple/pimple"
 require_once $vendor . '/Pimple/autoload.php';
-// "ircmaxell/password-compat"
-require_once $vendor . '/password_compat/password.php';
 // "nikic/php-parser"
 require_once $vendor . '/PhpParser/autoload.php';
 // "icewind/Streams"
 require_once $vendor . '/Icewind/Streams/autoload.php';
 // "swiftmailer/swiftmailer
 require_once $vendor . '/Swift/swift_required.php';
+// "guzzlehttp/guzzle"
+require_once $vendor . '/GuzzleHttp/autoload.php';
 // "league/flysystem"
 require_once $vendor . '/League/Flysystem/autoload.php';
 // "interfasys/lognormalizer"
 require_once $vendor . '/InterfaSys/LogNormalizer/autoload.php';
-// "deepdiver1975/TarSTreamer"
+// "deepdiver1975/TarStreamer"
 require_once $vendor . '/ownCloud/TarStreamer/autoload.php';
 // "patchwork/jsqueeze"
 require_once $vendor . '/Patchwork/JSqueeze.php';
-// "symfony/polyfill-php{55,56,70}"
+// "sabre/dav"
+require_once $vendor . '/Sabre/DAV/autoload.php';
+// "symfony/polyfill-php70"
 require_once $vendor . '/Symfony/Polyfill/autoload.php';
 // "lukasreschke/id3parser": "^0.0.1"
 require_once $vendor . '/ID3Parser/autoload.php';
+// "stecman/symfony-console-completion"
+require_once $vendor . '/Stecman/Component/Symfony/Console/BashCompletion/autoload.php';
+// "leafo/scssphp"
+require_once $vendor . '/Leafo/ScssPhp/autoload.php';
+// "icewind/searchdav"
+require_once $vendor . '/Icewind/SearchDAV/autoload.php';
