@@ -1,68 +1,74 @@
 <?php
-$vendor = '##DATADIR##/php';
-
-if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
-    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
-        require_once $vendor . '/Symfony/Component/ClassLoader/ClassLoader.php';
-    }
-
-    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
-    $fedoraClassLoader->register();
-}
+require_once '##PHPDIR##/Fedora/Autoloader/autoload.php';
 
 // For PEAR components
-$fedoraClassLoader->setUseIncludePath(true);
+\Fedora\Autoloader\Autoload::addIncludePath();
 
 // Dependencies from 3rdparty composer.json
-// "guzzlehttp/guzzle"
-require_once $vendor . '/GuzzleHttp/autoload.php';
-// "sabre/dav"
-require_once $vendor . '/Sabre/DAV/autoload.php';
-// "doctrine/dbal"
-require_once $vendor . '/Doctrine/DBAL/autoload.php';
-// mcnetic/zipstreamer"
-require_once $vendor . '/ZipStreamer/autoload.php';
-// "phpeclib/phpseclib"
-require_once $vendor . '/phpseclib/autoload.php';
-// "rackspace/php-opencloud"
-require_once $vendor . '/OpenCloud/autoload.php';
-// "jeremeamia/superclosure"
-require_once $vendor . '/SuperClosure/autoload.php';
-// "bantu/ini-get-wrapper"
-require_once $vendor . '/bantu/IniGetWrapper/IniGetWrapper.php';
-// "natxet/CssMin"
-require_once $vendor . '/natxet/CssMin/autoload.php';
-// "punic/punic"
-require_once $vendor . '/Punic/autoload.php';
-// "patchwork/utf8"
-require_once $vendor . '/Patchwork/autoload.php';
-// "symfony/console"
-require_once $vendor . '/Symfony/Component/Console/autoload.php';
-// "symfony/event-dispatcher"
-require_once $vendor . '/Symfony/Component/EventDispatcher/autoload.php';
-// "symfony/routing"
-require_once $vendor . '/Symfony/Component/Routing/autoload.php';
-// "symfony/process"
-require_once $vendor . '/Symfony/Component/Process/autoload.php';
-// "pimple/pimple"
-require_once $vendor . '/Pimple/autoload.php';
-// "ircmaxell/password-compat"
-require_once $vendor . '/password_compat/password.php';
-// "nikic/php-parser"
-require_once $vendor . '/PhpParser/autoload.php';
-// "icewind/Streams"
-require_once $vendor . '/Icewind/Streams/autoload.php';
-// "swiftmailer/swiftmailer
-require_once $vendor . '/Swift/swift_required.php';
-// "league/flysystem"
-require_once $vendor . '/League/Flysystem/autoload.php';
-// "interfasys/lognormalizer"
-require_once $vendor . '/InterfaSys/LogNormalizer/autoload.php';
-// "deepdiver1975/TarSTreamer"
-require_once $vendor . '/ownCloud/TarStreamer/autoload.php';
-// "patchwork/jsqueeze"
-require_once $vendor . '/Patchwork/JSqueeze.php';
-// "symfony/polyfill-php{55,56,70}"
-require_once $vendor . '/Symfony/Polyfill/autoload.php';
-// "lukasreschke/id3parser": "^0.0.1"
-require_once $vendor . '/ID3Parser/autoload.php';
+// https://github.com/nextcloud/3rdparty/blob/v12.0.5/composer.json
+\Fedora\Autoloader\Dependencies::required(array(
+        // "aws/aws-sdk-php"
+        '##PHPDIR##/Aws3/autoload.php',
+        // "bantu/ini-get-wrapper"
+        '##PHPDIR##/bantu/IniGetWrapper/IniGetWrapper.php',
+        // "deepdiver1975/TarStreamer"
+        '##PHPDIR##/ownCloud/TarStreamer/autoload.php',
+        // "doctrine/dbal"
+        '##PHPDIR##/Doctrine/DBAL/autoload.php',
+        // "guzzlehttp/guzzle"
+        '##PHPDIR##/GuzzleHttp/autoload.php',
+        // "icewind/searchdav"
+        '##PHPDIR##/Icewind/SearchDAV/autoload.php',
+        // "icewind/Streams"
+        '##PHPDIR##/Icewind/Streams/autoload.php',
+        // "interfasys/lognormalizer"
+        '##PHPDIR##/InterfaSys/LogNormalizer/autoload.php',
+        // "jeremeamia/superclosure"
+        '##PHPDIR##/SuperClosure/autoload.php',
+        // "leafo/scssphp"
+        '##PHPDIR##/Leafo/ScssPhp/autoload.php',
+        // "league/flysystem"
+        '##PHPDIR##/League/Flysystem/autoload.php',
+        // "lukasreschke/id3parser": "^0.0.1"
+        '##PHPDIR##/ID3Parser/autoload.php',
+        // mcnetic/zipstreamer"
+        '##PHPDIR##/ZipStreamer/autoload.php',
+        // "natxet/CssMin"
+        '##PHPDIR##/natxet/CssMin/autoload.php',
+        // "nikic/php-parser"
+        '##PHPDIR##/PhpParser/autoload.php',
+        // "patchwork/jsqueeze"
+        '##PHPDIR##/Patchwork/JSqueeze.php',
+        // "patchwork/utf8"
+        '##PHPDIR##/Patchwork/autoload.php',
+        // Do not autoload PEAR components
+        // "phpeclib/phpseclib"
+        '##PHPDIR##/phpseclib/autoload.php',
+        // "pimple/pimple"
+        '##PHPDIR##/Pimple/autoload.php',
+        // "punic/punic"
+        '##PHPDIR##/Punic/autoload.php',
+        // "rackspace/php-opencloud"
+        '##PHPDIR##/OpenCloud/autoload.php',
+        // Note react/promise is not in composer.json
+        // "react/promise"
+        '##PHPDIR##/React/Promise/autoload.php',
+        // "sabre/dav"
+        '##PHPDIR##/Sabre/DAV/autoload.php',
+        // "stecman/symfony-console-completion"
+        '##PHPDIR##/Stecman/Component/Symfony/Console/BashCompletion/autoload.php',
+        // "swiftmailer/swiftmailer
+        '##PHPDIR##/Swift/swift_required.php',
+        // "symfony/console"
+        '##PHPDIR##/Symfony3/Component/Console/autoload.php',
+        // "symfony/event-dispatcher"
+        '##PHPDIR##/Symfony3/Component/EventDispatcher/autoload.php',
+        // "symfony/polyfill-php70"
+        '##PHPDIR##/Symfony/Polyfill/autoload.php',
+        // "symfony/process"
+        '##PHPDIR##/Symfony3/Component/Process/autoload.php',
+        // "symfony/routing"
+        '##PHPDIR##/Symfony3/Component/Routing/autoload.php',
+        // "symfony/translation"
+        '##PHPDIR##/Symfony3/Component/Translation/autoload.php',
+));
