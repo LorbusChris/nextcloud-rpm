@@ -132,9 +132,8 @@ Requires:       php-composer(pear/pear-core-minimal) >= 1.10.1
 BuildRequires: (php-composer(phpseclib/phpseclib) >= 2.0.4 with php-composer(phpseclib/phpseclib) < 3.0)
 Requires:      (php-composer(phpseclib/phpseclib) >= 2.0.4 with php-composer(phpseclib/phpseclib) < 3.0)
 # "pimple/pimple": "3.2.3"
-# TODO: NC13: Package 3.2.3, update
-BuildRequires: (php-composer(pimple/pimple) >= 3.2.2 with php-composer(pimple/pimple) < 4.0)
-Requires:      (php-composer(pimple/pimple) >= 3.2.2 with php-composer(pimple/pimple) < 4.0)
+BuildRequires: (php-composer(pimple/pimple) >= 3.2.3 with php-composer(pimple/pimple) < 4.0)
+Requires:      (php-composer(pimple/pimple) >= 3.2.3 with php-composer(pimple/pimple) < 4.0)
 # "punic/punic": "^1.6"
 BuildRequires: (php-composer(punic/punic) >= 1.6.3 with php-composer(punic/punic) < 2.0)
 Requires:      (php-composer(punic/punic) >= 1.6.3 with php-composer(punic/punic) < 2.0)
