@@ -95,8 +95,9 @@ Requires:      (php-composer(league/flysystem) >= 1.0.20 with php-composer(leagu
 BuildRequires: (php-composer(lukasreschke/id3parser) >= 0.0.1 with php-composer(lukasreschke/id3parser) < 0.1.0)
 Requires:      (php-composer(lukasreschke/id3parser) >= 0.0.1 with php-composer(lukasreschke/id3parser) < 0.1.0)
 # "mcnetic/zipstreamer": "^1.0"
-BuildRequires: (php-composer(mcnetic/zipstreamer) >= 1.0 with php-composer(mcnetic/zipstreamer) < 2.0)
-Requires:      (php-composer(mcnetic/zipstreamer) >= 1.0 with php-composer(mcnetic/zipstreamer) < 2.0)
+# NOTE: We use v1.1.x from DeepDiver1975's maintained fork that contains all required patches.
+BuildRequires: (php-composer(deepdiver/zipstreamer) >= 1.1.0 with php-composer(deepdiver/zipstreamer) < 2.0.0)
+Requires:      (php-composer(deepdiver/zipstreamer) >= 1.1.0 with php-composer(deepdiver/zipstreamer) < 2.0.0)
 # "natxet/CssMin": "dev-master"
 BuildRequires: (php-composer(natxet/CssMin) >= 3.0.4 with php-composer(natxet/CssMin) < 4.0)
 Requires:      (php-composer(natxet/CssMin) >= 3.0.4 with php-composer(natxet/CssMin) < 4.0)
