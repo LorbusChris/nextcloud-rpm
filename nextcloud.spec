@@ -37,7 +37,7 @@ Source203:      %{name}-el7-php-fpm.conf
 
 BuildArch:      noarch
 
-# have %{phpdir} for convenience
+# have %%{phpdir} for convenience
 %{!?phpdir:  %global phpdir  %{_datadir}/php}
 
 # For the systemd macros
@@ -64,10 +64,10 @@ Requires:      (php-composer(bantu/ini-get-wrapper) >= 1.0.1 with php-composer(b
 BuildRequires: (php-composer(owncloud/tarstreamer) >= 0.1 with php-composer(owncloud/tarstreamer) < 1.0)
 Requires:      (php-composer(owncloud/tarstreamer) >= 0.1 with php-composer(owncloud/tarstreamer) < 1.0)
 # "doctrine/dbal": "dev-2.5.-pg10"
-# TODO: NC13: Get dep updated to 2.6 upstream, package 2.6, update
-# NOTE: NC13: Depends on patched dev-2.5.-pg10, fixes are in >2.6
-BuildRequires: (php-composer(doctrine/dbal) >= 2.5.12 with php-composer(doctrine/dbal) < 3)
-Requires:      (php-composer(doctrine/dbal) >= 2.5.12 with php-composer(doctrine/dbal) < 3)
+# TODO: NC14: Get dep updated to 2.6 upstream, package 2.6, update
+# NOTE: NC13: Bundling patched DBAL
+# BuildRequires: (php-composer(doctrine/dbal) >= 2.5.12 with php-composer(doctrine/dbal) < 3)
+# Requires:      (php-composer(doctrine/dbal) >= 2.5.12 with php-composer(doctrine/dbal) < 3)
 # "guzzlehttp/guzzle": "~5.3"
 BuildRequires: (php-composer(guzzlehttp/guzzle) >= 5.3.0 with php-composer(guzzlehttp/guzzle) < 6.0)
 Requires:      (php-composer(guzzlehttp/guzzle) >= 5.3.0 with php-composer(guzzlehttp/guzzle) < 6.0)
@@ -85,9 +85,8 @@ Requires:      (php-composer(interfasys/lognormalizer) >= 1.0 with php-composer(
 BuildRequires: (php-composer(jeremeamia/superclosure) >= 2.1.0 with php-composer(jeremeamia/superclosure) < 3.0)
 Requires:      (php-composer(jeremeamia/superclosure) >= 2.1.0 with php-composer(jeremeamia/superclosure) < 3.0)
 # "leafo/scssphp": "^0.7.2"
-# TODO: NC13: Package 0.7.2, update
-BuildRequires: (php-composer(leafo/scssphp) >= 0.6.7 with php-composer(leafo/scssphp) < 0.8.0)
-Requires:      (php-composer(leafo/scssphp) >= 0.6.7 with php-composer(leafo/scssphp) < 0.8.0)
+BuildRequires: (php-composer(leafo/scssphp) >= 0.7.5 with php-composer(leafo/scssphp) < 0.8.0)
+Requires:      (php-composer(leafo/scssphp) >= 0.7.5 with php-composer(leafo/scssphp) < 0.8.0)
 # "league/flysystem": "^1.0"
 BuildRequires: (php-composer(league/flysystem) >= 1.0.20 with php-composer(league/flysystem) < 2.0)
 Requires:      (php-composer(league/flysystem) >= 1.0.20 with php-composer(league/flysystem) < 2.0)
@@ -108,8 +107,9 @@ Requires:      (php-composer(nikic/php-parser) >= 1.4.1 with php-composer(nikic/
 BuildRequires: (php-composer(patchwork/jsqueeze) >= 2.0 with php-composer(patchwork/jsqueeze) < 3.0)
 Requires:      (php-composer(patchwork/jsqueeze) >= 2.0 with php-composer(patchwork/jsqueeze) < 3.0)
 # "patchwork/utf8": "1.2.6"
-BuildRequires: (php-composer(patchwork/utf8) >= 1.2.6 with php-composer(patchwork/utf8) < 2.0)
-Requires:      (php-composer(patchwork/utf8) >= 1.2.6 with php-composer(patchwork/utf8) < 2.0)
+# NOTE: Bundling patched patchwork/utf8
+# BuildRequires: (php-composer(patchwork/utf8) >= 1.2.6 with php-composer(patchwork/utf8) < 2.0)
+# Requires:      (php-composer(patchwork/utf8) >= 1.2.6 with php-composer(patchwork/utf8) < 2.0)
 # "pear/archive_tar": "1.4.3"
 # archive_tar is in base el7 and doesn't have the fedora php-composer provides
 %if 0%{?el7}
@@ -139,11 +139,13 @@ Requires:      (php-composer(pimple/pimple) >= 3.2.3 with php-composer(pimple/pi
 BuildRequires: (php-composer(punic/punic) >= 1.6.3 with php-composer(punic/punic) < 2.0)
 Requires:      (php-composer(punic/punic) >= 1.6.3 with php-composer(punic/punic) < 2.0)
 # "rackspace/php-opencloud": "v1.16.0"
-BuildRequires: (php-composer(rackspace/php-opencloud) >= 1.16.0 with php-composer(rackspace/php-opencloud) < 2.0)
-Requires:      (php-composer(rackspace/php-opencloud) >= 1.16.0 with php-composer(rackspace/php-opencloud) < 2.0)
+# NOTE: Bundling patched rackspace/php-opencloud
+# BuildRequires: (php-composer(rackspace/php-opencloud) >= 1.16.0 with php-composer(rackspace/php-opencloud) < 2.0)
+# Requires:      (php-composer(rackspace/php-opencloud) >= 1.16.0 with php-composer(rackspace/php-opencloud) < 2.0)
 # "sabre/dav" : "^3.2.0"
-BuildRequires: (php-composer(sabre/dav)  >= 3.2.0 with php-composer(sabre/dav) < 4.0)
-Requires:      (php-composer(sabre/dav)  >= 3.2.0 with php-composer(sabre/dav) < 4.0)
+# NOTE: Bundling patched sabre/dav
+# BuildRequires: (php-composer(sabre/dav)  >= 3.2.0 with php-composer(sabre/dav) < 4.0)
+# Requires:      (php-composer(sabre/dav)  >= 3.2.0 with php-composer(sabre/dav) < 4.0)
 # "stecman/symfony-console-completion": "^0.7.0"
 BuildRequires: (php-composer(stecman/symfony-console-completion) >= 0.7.0 with php-composer(stecman/symfony-console-completion) < 0.8.0)
 Requires:      (php-composer(stecman/symfony-console-completion) >= 0.7.0 with php-composer(stecman/symfony-console-completion) < 0.8.0)
@@ -342,6 +344,7 @@ Requires:   php-sqlite3 php-pcre
 This package ensures the necessary dependencies are in place for NextCloud to
 work with an SQLite 3 database stored on the local system.
 
+
 %prep
 %autosetup -n %{name} -p1
 
@@ -364,6 +367,9 @@ pushd 3rdparty
 # 3rdparty: add our Fedora autoloader
 cp %{SOURCE6} ./autoload.php
 
+# 3rdparty: create autoloader for bundled libs
+phpab --template fedora --output ./bundled.php .
+
 # Set the vendor directory to macro based datadir in our autoloader
 sed -i "s,##PHPDIR##,%{phpdir}," autoload.php
 
@@ -372,7 +378,7 @@ sed -i "s,##PHPDIR##,%{phpdir}," autoload.php
 rm -r aws/aws-sdk-php
 rm -r bantu/ini-get-wrapper
 rm -r deepdiver1975/tarstreamer
-rm -r doctrine/{annotations,cache,collections,common,dbal,inflector,lexer}
+# rm -r doctrine/{annotations,cache,collections,common,dbal,inflector,lexer}
 rm -r guzzle/guzzle
 rm -r guzzlehttp/{guzzle,psr7,promises,ringphp,streams}
 rm -r icewind/{streams,searchdav}
@@ -387,25 +393,30 @@ rm -r mtdowling/jmespath.php
 rm -r natxet/CssMin
 rm -r nikic/php-parser
 rm -r paragonie/random_compat
-rm -r patchwork/{jsqueeze,utf8}
+# rm -r patchwork/{jsqueeze,utf8}
+# NOTE: remove next line once once utf8 is unbundled
+rm -r patchwork/jsqueeze
 rm -r pear/{archive_tar,console_getopt,pear-core-minimal,pear_exception}
 rm -r phpseclib/phpseclib
 rm -r pimple/pimple
 rm -r psr/{log,http-message}
 rm -r punic/punic
-rm -r rackspace/php-opencloud
+# rm -r rackspace/php-opencloud
 rm -r react/promise
-rm -r sabre/{dav,event,http,uri,vobject,xml}
+# rm -r sabre/{dav,event,http,uri,vobject,xml}
 rm -r stecman/symfony-console-completion
 rm -r swiftmailer/swiftmailer
 rm -r symfony/{console,debug,event-dispatcher,polyfill-mbstring,polyfill-php70,process,routing,translation}
 
 # 3rdparty: clean up composer, extraneous files and any empty directories
 rm -r composer*
-rm "LICENSE INFO" patches.txt README.md
-find -type d -empty  -delete
+find -type d -empty -delete
 
 popd
+# 3rdparty: move info files
+mv "LICENSE INFO" ../NextCloud-3rdparty-LICENSE-INFO
+mv patches.txt PATCHES.3rdparty
+mv README.md ../README.3rdparty
 
 # files_external app: move composer.json
 mv apps/files_external/3rdparty/composer.json files_external_composer.json
@@ -461,7 +472,7 @@ rm -r updater
 
 # Locate license files and put them sensibly in place
 # NOTE: NC14: Uncomment once COPYING is included in the deliverable again. Already in master.
-#mv COPYING nextcloud-LICENSE
+#mv COPYING NextCloud-LICENSE
 mv apps/admin_audit/composer/composer/LICENSE admin_audit-app-LICENSE
 mv apps/comments/composer/composer/LICENSE comments-app-LICENCE
 mv apps/dav/composer/composer/LICENSE dav-app-LICENCE
@@ -514,8 +525,10 @@ mv core/vendor/underscore/LICENSE js-underscore-LICENSE
 mv core/vendor/zxcvbn/LICENSE.txt js-zxcvbn-LICENSE
 mv lib/composer/composer/LICENSE composer-LICENSE
 
+
 %build
 # Nothing to build
+
 
 %install
 install -dm 755 %{buildroot}%{_datadir}/%{name}
@@ -574,6 +587,7 @@ install -Dpm 644 %{SOURCE202} \
 install -Dpm 644 %{SOURCE10} %{buildroot}%{_unitdir}/nextcloud-cron.service
 install -Dpm 644 %{SOURCE11} %{buildroot}%{_unitdir}/nextcloud-cron.timer
 
+
 %check
 # Make sure there are no license files left over
 # For debugging the next line can be uncommented
@@ -616,7 +630,8 @@ fi
 # For debugging the next line can be uncommented
 ls %{buildroot}%{_datadir}/%{name}/3rdparty
 nb=$(ls %{buildroot}%{_datadir}/%{name}/3rdparty | wc -l)
-if [ $nb -gt 1  ]; then
+# NOTE: Without bundled libs 3rdparty should contain just one file (autoload.php)
+if [ $nb -gt 6  ]; then
   false core 3rdparty must only have autoload.php
 fi
 php %{buildroot}%{_datadir}/%{name}/3rdparty/autoload.php
@@ -651,6 +666,7 @@ if [ $1 -eq 0 ]; then
   /usr/bin/systemctl reload httpd.service > /dev/null 2>&1 || :
 fi
 
+
 %post nginx
 %if 0%{?el7}
   # Work around missing php session directory for php-fpm in el7 bz#1338444
@@ -669,13 +685,15 @@ if [ $1 -eq 0 ]; then
   /usr/bin/systemctl reload php-fpm.service > /dev/null 2>&1 || :
 fi
 
-# TODO: POLICY: upstream fedora selinux policy
+
 %post
+# TODO: POLICY: upstream fedora selinux policy
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_sysconfdir}/%{name}/config.php' 2>/dev/null || :
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_sysconfdir}/%{name}' 2>/dev/null || :
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 restorecon -R %{_sysconfdir}/%{name} || :
 restorecon -R %{_localstatedir}/lib/%{name} || :
+
 
 %postun
 if [ $1 -eq 0  ] ; then
@@ -684,11 +702,11 @@ semanage fcontext -d -t httpd_sys_rw_content_t '%{_sysconfdir}/%{name}' 2>/dev/n
 semanage fcontext -d -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 fi
 
-%files
-%doc AUTHORS README.fedora MIGRATION.fedora config/config.sample.php
-%doc *_composer.json
 
-%license *-LICENSE
+%files
+%license *-LICENSE NextCloud-3rdparty-LICENSE-INFO
+%doc AUTHORS PATCHES.3rdparty README.3rdparty README.fedora MIGRATION.fedora config/config.sample.php
+%doc *_composer.json
 
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 # contains sensitive data (dbpassword, passwordsalt)
@@ -705,30 +723,38 @@ fi
 %{_unitdir}/nextcloud-cron.service
 %{_unitdir}/nextcloud-cron.timer
 
+
 %files httpd
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{_sysconfdir}/httpd/conf.d/%{name}-access.conf.avail
 %{_sysconfdir}/httpd/conf.d/*.inc
+
 
 %files nginx
 %config(noreplace) %{_sysconfdir}/nginx/default.d/%{name}.conf
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/%{name}.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/%{name}.conf
 
+
 %files mysql
 %doc README.mysql
+
 
 %files postgresql
 %doc README.postgresql
 
+
 %files sqlite
 
+
 %changelog
-* Wed Feb 7 2018 Christian Glombek <christian.glombekg@rwth-aachen.de> - 13.0.0-1
+* Tue Feb 13 2018 Christian Glombek <christian.glombek@rwth-aachen.de> - 13.0.0-1
 - Update to 13.0.0
 - Updated dependencies
 - Added Fedora php autoloader
 - Removed old patch files
+- Switch to fork of ZipStreamer dependency
+- Bundled patched dependencies while waiting for upstream fixes
 
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild

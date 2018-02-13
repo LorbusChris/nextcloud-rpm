@@ -1,11 +1,12 @@
 <?php
 require_once '##PHPDIR##/Fedora/Autoloader/autoload.php';
+require_once . 'bundled.php';
 
 // For PEAR components
 \Fedora\Autoloader\Autoload::addIncludePath();
 
 // Dependencies from 3rdparty composer.json
-// https://github.com/nextcloud/3rdparty/blob/v12.0.5/composer.json
+// https://github.com/nextcloud/3rdparty/blob/v13.0.0/composer.json
 \Fedora\Autoloader\Dependencies::required(array(
         // "aws/aws-sdk-php"
         '##PHPDIR##/Aws3/autoload.php',
@@ -14,7 +15,8 @@ require_once '##PHPDIR##/Fedora/Autoloader/autoload.php';
         // "deepdiver1975/TarStreamer"
         '##PHPDIR##/ownCloud/TarStreamer/autoload.php',
         // "doctrine/dbal"
-        '##PHPDIR##/Doctrine/DBAL/autoload.php',
+        // NOTE: Bundling patched dbal in 3rdparty dir
+        // '##PHPDIR##/Doctrine/DBAL/autoload.php',
         // "guzzlehttp/guzzle"
         '##PHPDIR##/GuzzleHttp/autoload.php',
         // "icewind/searchdav"
@@ -40,7 +42,8 @@ require_once '##PHPDIR##/Fedora/Autoloader/autoload.php';
         // "patchwork/jsqueeze"
         '##PHPDIR##/Patchwork/JSqueeze.php',
         // "patchwork/utf8"
-        '##PHPDIR##/Patchwork/autoload.php',
+        // NOTE: Bundling patched utf8 in 3rdparty dir
+        // '##PHPDIR##/Patchwork/autoload.php',
         // Do not autoload PEAR components
         // "phpeclib/phpseclib"
         '##PHPDIR##/phpseclib/autoload.php',
@@ -49,12 +52,14 @@ require_once '##PHPDIR##/Fedora/Autoloader/autoload.php';
         // "punic/punic"
         '##PHPDIR##/Punic/autoload.php',
         // "rackspace/php-opencloud"
-        '##PHPDIR##/OpenCloud/autoload.php',
+        // NOTE: Bundling patched php-opencloud in 3rdparty dir
+        // '##PHPDIR##/OpenCloud/autoload.php',
         // Note react/promise is not in composer.json
         // "react/promise"
         '##PHPDIR##/React/Promise/autoload.php',
         // "sabre/dav"
-        '##PHPDIR##/Sabre/DAV/autoload.php',
+        // NOTE: Bundling patched sabreDAV in 3rdparty dir
+        // '##PHPDIR##/Sabre/DAV/autoload.php',
         // "stecman/symfony-console-completion"
         '##PHPDIR##/Stecman/Component/Symfony/Console/BashCompletion/autoload.php',
         // "swiftmailer/swiftmailer
