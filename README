@@ -111,8 +111,3 @@ The default behaviour is to use the AJAX webcron, however this is fairly ineffic
 It's recommended to set the option "Cron" to use the system scheduler and to enable the included systemd timer.
 
 systemctl enable --now nextcloud-cron.timer
-
-Migration from owncloud
------------------------
-
-For detailed instructions on this please read MIGRATION.fedora
