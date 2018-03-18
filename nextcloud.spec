@@ -1,5 +1,5 @@
 Name:           nextcloud
-Version:        13.0.0
+Version:        13.0.1
 Release:        1%{?dist}
 Summary:        Private file sync and share server
 
@@ -349,7 +349,7 @@ applications and plugins.
 Summary:        Httpd integration for NextCloud
 Provides:       %{name}-webserver = %{version}-%{release}
 Requires:       %{name} = %{version}-%{release}
-Requires:       php
+Requires:       php(httpd)
 %description    httpd
 %{summary}.
 
@@ -757,12 +757,10 @@ install -Dpm 644 %{SOURCE202} \
   /usr/bin/chown apache /var/lib/php/session
 %endif
 %systemd_post nginx.service
-%systemd_post php-fpm.service
 
 
 %postun nginx
 %systemd_postun_with_restart nginx.service
-%systemd_postun_with_restart php-fpm.service
 
 
 %post
@@ -824,6 +822,9 @@ fi
 
 
 %changelog
+* Sun Mar 18 2018 Christian Glombek <christian.glombek@rwth-aachen.de> - 13.0.1-1
+- Update to 13.0.1
+
 * Tue Feb 13 2018 Christian Glombek <christian.glombek@rwth-aachen.de> - 13.0.0-1
 - Update to 13.0.0
 - Add Fedora php autoloader
